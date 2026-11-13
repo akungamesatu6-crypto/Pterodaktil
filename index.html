@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pterodaktil — Pixel Pterodactyl NFT · BNB Chain</title>
+<meta name="description" content="Pterodaktil — 1,600 pixel-art pterodactyls in 16 tiers on BNB Chain. First mint FREE for Agent ID holders, then a 0.0005–0.005 BNB ladder. Burn 5 to forge 1 Paragon.">
+<style>
+:root{--bg:#1a1033;--bg2:#241640;--card:#2c1c52;--line:#4a2f7d;--ink:#fff3d6;--mut:#cbb8ef;--orange:#ff9a3c;--pink:#ff5e8a;--gold:#ffd23f;--green:#4ade80;--red:#ff6b6b;--blue:#6ec1ff}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.55}
+img{max-width:100%;display:block}
+a{color:var(--gold)}
+h1,h2,h3,.px{font-family:"Courier New",ui-monospace,Menlo,Consolas,monospace;letter-spacing:.5px}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+section{padding:44px 0;scroll-margin-top:76px}
+h2{font-size:24px;margin-bottom:6px}
+.lead{color:var(--mut);margin-bottom:18px}
+/* preview banner */
+#previewBar{background:#3a2b12;color:#ffd98a;text-align:center;padding:9px 12px;font-size:13px;border-bottom:2px solid var(--gold)}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(26,16,51,.96);border-bottom:2px solid var(--line);backdrop-filter:blur(6px)}
+.hd{display:flex;align-items:center;gap:10px;padding:10px 16px;max-width:960px;margin:0 auto}
+.logo{font-family:"Courier New",monospace;font-weight:700;font-size:17px;color:var(--ink);text-decoration:none;white-space:nowrap}
+.logo b{color:var(--orange)}
+nav{display:none;gap:14px;margin-left:auto;font-size:13px}
+nav a{color:var(--mut);text-decoration:none}
+nav a:hover{color:var(--ink)}
+.burger{margin-left:auto;background:none;border:2px solid var(--line);color:var(--ink);border-radius:8px;padding:6px 10px;font-size:16px;cursor:pointer}
+#drawer{display:none;background:var(--bg2);border-bottom:2px solid var(--line);padding:12px 16px}
+#drawer.open{display:block}
+#drawer a{display:block;color:var(--ink);text-decoration:none;padding:9px 4px;border-bottom:1px solid var(--line)}
+.btn{display:inline-block;background:var(--orange);color:#241103;font-weight:800;border:none;border-radius:10px;padding:11px 20px;font-size:15px;cursor:pointer;text-decoration:none;text-align:center}
+.btn:hover{filter:brightness(1.08)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--line)}
+.btn.small{padding:8px 14px;font-size:13px}
+.btn.gold{background:var(--gold)}
+.hd .btn{padding:8px 14px;font-size:13px}
+/* hero */
+.hero{background:linear-gradient(180deg,#2b1155 0%,#7a2d6d 45%,#e2603f 75%,#ff9a3c 100%);padding:36px 0 30px;text-align:center}
+.hero img.hero-img{width:min(320px,72vw);margin:0 auto 14px;border:4px solid #fff3d6;border-radius:16px;image-rendering:pixelated;box-shadow:0 12px 40px rgba(0,0,0,.45)}
+.hero h1{font-size:30px;line-height:1.15;text-shadow:2px 2px 0 rgba(0,0,0,.35)}
+.hero .tag{color:#ffe9c9;margin:10px auto 16px;max-width:560px}
+.pill{display:inline-block;background:rgba(0,0,0,.35);border:2px solid #fff3d6;color:#fff;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:700;margin-bottom:14px}
+.pill.live{background:#14532d;border-color:var(--green);color:#bbf7d0}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-width:560px;margin:18px auto 0}
+.stat{background:rgba(0,0,0,.32);border:2px solid rgba(255,243,214,.5);border-radius:12px;padding:12px 8px}
+.stat b{display:block;font-size:22px;font-family:"Courier New",monospace}
+.stat span{font-size:12px;color:#ffe9c9}
+.cta-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+/* live flight visual */
+.flight{background:linear-gradient(180deg,#241640,#3b1c63);border:2px solid var(--line);border-radius:16px;padding:20px 16px;position:relative;overflow:hidden}
+.flight .sky{position:relative;height:120px;background:linear-gradient(180deg,#12082b 0%,#4a2060 55%,#c65a3a 100%);border-radius:12px;overflow:hidden;margin-bottom:14px}
+.flight .star{position:absolute;width:3px;height:3px;background:#fff;border-radius:50%}
+.flight .cloud{position:absolute;background:rgba(255,243,214,.85);border-radius:999px;height:14px}
+.flight .bird{position:absolute;top:38px;left:4%;width:64px;transition:left 1s ease;filter:drop-shadow(0 4px 8px rgba(0,0,0,.5))}
+.flight .bird img{width:100%;border-radius:10px;border:2px solid #fff3d6;image-rendering:pixelated}
+.flight .ground{position:absolute;bottom:0;left:0;right:0;height:22px;background:#1c0f38;border-top:2px dashed var(--gold)}
+.meter{height:12px;background:#12082b;border-radius:999px;overflow:hidden;border:1px solid var(--line)}
+.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--orange),var(--gold));width:0%;transition:width 1s ease}
+.live-row{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:14px;margin-top:10px}
+.live-row b{font-family:"Courier New",monospace;font-size:16px}
+/* steps */
+.steps{display:grid;gap:12px}
+.step{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:16px}
+.step b.num{display:inline-block;background:var(--orange);color:#241103;border-radius:8px;padding:2px 10px;font-family:"Courier New",monospace;margin-bottom:8px}
+/* gallery */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:14px;overflow:hidden}
+.card img{width:100%;aspect-ratio:3/2;object-fit:cover;image-rendering:pixelated}
+.card .cb{padding:10px 12px}
+.card .cb b{font-family:"Courier New",monospace}
+.card .cb p{font-size:12px;color:var(--mut)}
+.tier-tag{display:inline-block;font-size:11px;font-weight:800;border-radius:6px;padding:2px 8px;margin-top:6px}
+/* rarity */
+.stackbar{display:flex;height:26px;border-radius:8px;overflow:hidden;border:2px solid var(--line);margin-bottom:14px}
+.stackbar i{display:block;height:100%}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--mut);font-size:12px}
+td.num, th.num{text-align:right;font-family:"Courier New",monospace}
+.tbl-wrap{overflow-x:auto;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:6px 10px}
+/* paragon */
+.paragon{background:linear-gradient(135deg,#2c1c52,#4a1d5e 55%,#6d2a1e);border:2px solid var(--gold);border-radius:16px;padding:20px;text-align:center}
+.paragon img{width:min(280px,70vw);margin:0 auto 14px;border:4px solid var(--gold);border-radius:16px;image-rendering:pixelated}
+.paragon .burn-line{font-family:"Courier New",monospace;font-size:18px;color:var(--gold);margin:8px 0}
+/* mint */
+.mint-box{background:var(--card);border:2px solid var(--orange);border-radius:16px;padding:20px 16px}
+.badge{display:inline-block;border-radius:999px;padding:5px 12px;font-size:13px;font-weight:800}
+.badge.soon{background:#3a2b12;color:#ffd98a}
+.badge.live{background:#14532d;color:#bbf7d0}
+.badge.sold{background:#7f1d1d;color:#fecaca}
+.mode-row{display:flex;gap:8px;margin:16px 0 10px}
+.mode-btn{flex:1;padding:12px;border-radius:10px;border:2px solid var(--line);background:transparent;color:var(--ink);font-weight:800;cursor:pointer}
+.mode-btn.on{border-color:var(--orange);background:rgba(255,154,60,.15)}
+.qty-row{display:flex;align-items:center;gap:10px;margin:10px 0}
+.qty-row button{width:40px;height:40px;font-size:20px;border-radius:10px;border:2px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.qty-row b{font-size:20px;font-family:"Courier New",monospace;min-width:28px;text-align:center}
+.price-line{display:flex;justify-content:space-between;font-size:14px;padding:8px 0;border-top:1px dashed var(--line)}
+.price-line b{font-family:"Courier New",monospace}
+#mintBtn{width:100%;margin-top:12px;font-size:17px;padding:14px}
+.mint-status{margin-top:12px;font-size:13px;min-height:20px}
+.mint-status.err{color:var(--red)}
+.mint-status.ok{color:var(--green)}
+.wallet-line{font-size:13px;color:var(--mut);margin-top:8px;word-break:break-all}
+.agent-box{margin-top:16px;background:#12082b;border:2px dashed var(--line);border-radius:12px;padding:14px}
+.agent-box pre{background:#000;border-radius:8px;padding:10px;font-size:12px;white-space:pre-wrap;word-break:break-word;color:#d6f5d6;max-height:170px;overflow:auto}
+.check-row{display:flex;gap:8px;margin-top:10px}
+.check-row input{flex:1;min-width:0;background:#12082b;border:2px solid var(--line);border-radius:10px;color:var(--ink);padding:10px;font-size:13px}
+.check-out{font-size:13px;margin-top:8px;min-height:18px}
+.check-out.ok{color:var(--green)}
+.check-out.err{color:var(--red)}
+.burn-box{margin-top:18px;border-top:2px dashed var(--line);padding-top:16px}
+.burn-ids{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:10px 0}
+.burn-ids input{width:100%;background:#12082b;border:2px solid var(--line);border-radius:8px;color:var(--ink);padding:9px 6px;font-size:13px;text-align:center}
+/* token */
+.tok-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+.tok{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:14px}
+.tok b{display:block;font-size:19px;font-family:"Courier New",monospace}
+.tok span{font-size:12px;color:var(--mut)}
+.claim-box{background:#12082b;border:2px solid var(--gold);border-radius:12px;padding:14px}
+/* market */
+.mkt{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:18px}
+/* faq */
+details{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:700}
+details p{margin-top:8px;color:var(--mut);font-size:14px}
+/* details */
+.code-box{background:#12082b;border:2px solid var(--line);border-radius:12px;padding:14px;font-size:13px;word-break:break-all}
+.code-box div{padding:5px 0;border-bottom:1px dashed var(--line)}
+.code-box div:last-child{border-bottom:none}
+.code-box span{color:var(--mut)}
+.note{font-size:13px;color:var(--mut);margin-top:10px}
+/* footer */
+footer{border-top:2px solid var(--line);padding:28px 0 90px;text-align:center;color:var(--mut);font-size:13px}
+footer .flinks{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+.float-mint{position:fixed;right:14px;bottom:14px;z-index:60;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+@media(min-width:640px){
+  .grid{grid-template-columns:repeat(4,1fr)}
+  .steps{grid-template-columns:repeat(3,1fr)}
+  .stats{grid-template-columns:repeat(4,1fr)}
+  .tok-grid{grid-template-columns:repeat(4,1fr)}
+  nav{display:flex}
+  .burger{display:none}
+  h2{font-size:27px}
+  .hero h1{font-size:40px}
+}
+@media(max-width:400px){
+  .hero h1{font-size:26px}
+  .logo{font-size:15px}
+  .burn-ids{grid-template-columns:repeat(5,1fr);gap:5px}
+  .burn-ids input{padding:8px 2px;font-size:12px}
+}
+</style>
+</head>
+<body>
+<div id="previewBar">👀 PREVIEW — contracts are deploying soon. Mint is disabled until the contracts are live.</div>
+<header>
+  <div class="hd">
+    <a class="logo" href="#top"><b>◆</b> PTERODAKTIL</a>
+    <nav>
+      <a href="#collection">Collection</a><a href="#rarity">Rarity</a><a href="#burn">Burn</a><a href="#mint">Mint</a><a href="#token">Token</a><a href="#market">Marketplace</a><a href="#faq">FAQ</a>
+    </nav>
+    <button class="burger" id="burgerBtn" aria-label="Menu">☰</button>
+    <a class="btn" href="#mint">Mint</a>
+  </div>
+  <div id="drawer">
+    <a href="#collection">Collection</a><a href="#rarity">Rarity</a><a href="#burn">Burn</a><a href="#mint">Mint</a><a href="#token">Token</a><a href="#market">Marketplace</a><a href="#faq">FAQ</a>
+    <a href="https://x.com/ptrdktlnft" target="_blank" rel="noopener">Follow @ptrdktlnft on X ↗</a>
+  </div>
+</header>
+
+<div class="hero" id="top">
+  <div class="wrap">
+    <span class="pill" id="heroPill">🦕 PREVIEW — MINT OPENS SOON</span>
+    <img class="hero-img" src="assets/hero.png" alt="Pterodaktil — pixel pterodactyl hero">
+    <h1>PTERODAKTIL</h1>
+    <p class="tag">1,600 pixel-art pterodactyls in 16 tiers, flying on BNB Chain. First mint FREE for Agent ID holders. Burn 5 to forge 1 Paragon.</p>
+    <div class="cta-row">
+      <a class="btn gold" href="#mint">Mint now</a>
+      <a class="btn ghost" href="#collection">See the 16 tiers</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>1,600</b><span>Total supply</span></div>
+      <div class="stat"><b>16</b><span>Tiers</span></div>
+      <div class="stat"><b>$PTRO</b><span>Bonus token</span></div>
+      <div class="stat"><b>6 / wallet</b><span>1 free + 5 paid</span></div>
+    </div>
+  </div>
+</div>
+
+<section id="live">
+  <div class="wrap">
+    <div class="flight">
+      <h2>Live flight</h2>
+      <p class="lead">The flock takes off as mints fill the sky. Counter reads live from the contract once deployed.</p>
+      <div class="sky" id="sky">
+        <span class="star" style="top:12px;left:8%"></span><span class="star" style="top:22px;left:30%"></span><span class="star" style="top:10px;left:55%"></span><span class="star" style="top:26px;left:78%"></span><span class="star" style="top:16px;left:90%"></span>
+        <span class="cloud" style="top:20px;left:12%;width:70px"></span><span class="cloud" style="top:52px;left:58%;width:90px"></span><span class="cloud" style="top:70px;left:24%;width:56px"></span>
+        <div class="bird" id="flightBird"><img src="assets/01-common.png" alt="Flying pterodactyl"></div>
+        <div class="ground"></div>
+      </div>
+      <div class="meter"><i id="mintMeter"></i></div>
+      <div class="live-row">
+        <span>Minted: <b id="mintedCount">— / 1,600</b> <span style="color:var(--mut);font-size:12px">(planned supply — live count once deployed)</span></span>
+        <span>Paragons forged by burn: <b id="burnCount">— / 10</b></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <p class="lead">Three steps. No allowlist — any Agent ID holder can mint.</p>
+    <div class="steps">
+      <div class="step"><b class="num">01</b><h3>Get an Agent ID</h3><p>Hold a SPACE ID Agent ID in the wallet you mint with. The page checks it for you below — no Agent ID, no mint.</p></div>
+      <div class="step"><b class="num">02</b><h3>Mint your pterodactyl</h3><p>First mint is FREE. Then climb the ladder: 0.0005 → 0.001 → 0.002 → 0.003 → 0.005 BNB. Max 6 per wallet. Every mint draws a random tier.</p></div>
+      <div class="step"><b class="num">03</b><h3>Burn 5, forge a Paragon</h3><p>Burn any 5 Pterodaktils to forge 1 Paragon — the highest tier — plus 384,000 $PTRO. Only 10 Paragons can ever be forged by burn.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="collection">
+  <div class="wrap">
+    <h2>The 16 tiers</h2>
+    <p class="lead">Every tier has exactly 100 pterodactyls. Mint draws are random — any mint can land any tier.</p>
+    <div class="grid" id="gallery"></div>
+  </div>
+</section>
+
+<section id="rarity">
+  <div class="wrap">
+    <h2>Rarity &amp; bonus</h2>
+    <p class="lead">Bonus $PTRO accrues per paid mint, by the tier actually drawn. Free mint accrues 10 $PTRO.</p>
+    <div class="stackbar" id="stackbar"></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Tier</th><th>Token IDs</th><th class="num">Count</th><th class="num">$PTRO / paid mint</th><th class="num">Draw chance</th></tr></thead>
+        <tbody id="rarityBody"></tbody>
+      </table>
+    </div>
+    <p class="note">Draw chance at launch (deck of 1,590 mintable ids; 10 Paragons are burn-only and never drawn). Each tier is 100 / 1,600 = 6.25% of total supply.</p>
+  </div>
+</section>
+
+<section id="burn">
+  <div class="wrap">
+    <div class="paragon">
+      <h2>Paragon — forged, never bought</h2>
+      <img src="assets/paragon-royal.png" alt="Paragon — royal crowned pterodactyl">
+      <p class="burn-line">BURN 5 → 1 PARAGON + 384,000 $PTRO</p>
+      <p style="color:var(--mut);max-width:560px;margin:0 auto">The highest tier cannot be bought — only forged. Burn any 5 Pterodaktils you own and a Paragon hatches from the fire, with 3× its bonus in $PTRO. Only 10 Paragons can ever be forged this way. The other 90 Paragons live in the random mint deck.</p>
+    </div>
+  </div>
+</section>
+
+<section id="mint">
+  <div class="wrap">
+    <div class="mint-box">
+      <span class="badge soon" id="mintState">PREVIEW — MINT NOT DEPLOYED YET</span>
+      <h2 style="margin-top:12px">Mint</h2>
+      <p class="lead" id="mintNote">Contracts are deploying soon. The mint panel below is fully wired — it activates the moment the contracts are live.</p>
+      <div class="live-row"><span>Minted: <b id="mintedCount2">— / 1,600</b></span><span>Deck left: <b id="deckLeft">—</b></span></div>
+      <div class="wallet-line" id="walletLine">Wallet: not connected</div>
+      <div class="mode-row">
+        <button class="mode-btn on" id="btnFree">FREE · Agent ID</button>
+        <button class="mode-btn" id="btnPaid">PAID · Agent ID</button>
+      </div>
+      <div id="paidControls" style="display:none">
+        <div class="qty-row">
+          <button id="qtyMinus" aria-label="Less">−</button><b id="qtyNum">1</b><button id="qtyPlus" aria-label="More">+</button>
+          <span style="color:var(--mut);font-size:13px">paid mints (max 5)</span>
+        </div>
+      </div>
+      <div class="price-line"><span id="priceLabel">Free mint — 10 $PTRO bonus</span><b id="totalPrice">0 BNB</b></div>
+      <div class="price-line"><span>Ladder</span><b>#1 FREE · #2 0.0005 · #3 0.001 · #4 0.002 · #5 0.003 · #6 0.005 BNB</b></div>
+      <button class="btn" id="mintBtn" disabled>Mint — coming soon</button>
+      <div class="mint-status" id="mintStatus"></div>
+      <div class="agent-box">
+        <b>Agent prompt</b>
+        <p style="font-size:13px;color:var(--mut);margin:6px 0">Copy this into your agent to mint from your Binance Agentic Wallet:</p>
+        <pre id="agentPrompt"></pre>
+        <button class="btn ghost small" id="copyPromptBtn" style="margin-top:10px">Copy prompt</button>
+      </div>
+      <div class="agent-box">
+        <b>Agent ID checker</b>
+        <p style="font-size:13px;color:var(--mut);margin:6px 0">Paste a wallet address to check whether it holds a SPACE ID Agent ID and can mint.</p>
+        <div class="check-row">
+          <input id="agentAddr" placeholder="0x..." autocomplete="off" spellcheck="false">
+          <button class="btn small" id="agentCheckBtn">Check</button>
+        </div>
+        <div class="check-out" id="agentCheckOut"></div>
+      </div>
+      <div class="burn-box">
+        <b>Burn 5 → 1 Paragon</b>
+        <p style="font-size:13px;color:var(--mut);margin:6px 0">Enter the 5 token IDs you own (any tiers, no duplicates). Burns them and forges 1 Paragon + 384,000 $PTRO.</p>
+        <div class="burn-ids">
+          <input id="burnId0" inputmode="numeric" placeholder="#1"><input id="burnId1" inputmode="numeric" placeholder="#2"><input id="burnId2" inputmode="numeric" placeholder="#3"><input id="burnId3" inputmode="numeric" placeholder="#4"><input id="burnId4" inputmode="numeric" placeholder="#5">
+        </div>
+        <button class="btn gold" id="burnBtn" disabled>Burn 5 → Forge Paragon</button>
+        <div class="mint-status" id="burnStatus"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="token">
+  <div class="wrap">
+    <h2>$PTRO — the flock's token</h2>
+    <p class="lead">Every mint earns $PTRO by the tier drawn. Claim it any time from the token contract.</p>
+    <div class="tok-grid">
+      <div class="tok"><b>100,000,000</b><span>Total supply (fixed)</span></div>
+      <div class="tok"><b>55,000,000</b><span>Rewards pool</span></div>
+      <div class="tok"><b>45,000,000</b><span>Treasury (owner)</span></div>
+      <div class="tok"><b>1,200,000</b><span>Max bonus / wallet</span></div>
+    </div>
+    <div class="claim-box">
+      <b>Claim your $PTRO</b>
+      <p style="font-size:13px;color:var(--mut);margin:6px 0">Bonus accrues to your wallet on every mint. Connect your wallet to see what is waiting.</p>
+      <div class="live-row"><span>Claimable: <b id="claimableAmt">— PTRO</b></span><span>Total accrued: <b id="accruedAmt">— PTRO</b></span></div>
+      <button class="btn gold" id="claimBtn" disabled style="margin-top:12px">Claim $PTRO</button>
+      <div class="mint-status" id="claimStatus"></div>
+    </div>
+  </div>
+</section>
+
+<section id="market">
+  <div class="wrap">
+    <h2>Marketplace</h2>
+    <p class="lead">Trade Pterodaktils on our own escrow marketplace — 0% platform fee, 5% royalty to the project wallet.</p>
+    <div class="mkt">
+      <p>List a pterodactyl at your price, or buy one listed by another collector. The NFT moves into escrow when listed and returns to you if you cancel. Royalty (5%) is paid to the project wallet on every sale.</p>
+      <p style="margin-top:10px;font-size:13px;color:var(--mut)">Marketplace contract: <a id="mktAddr" href="#" target="_blank" rel="noopener">deploying soon</a> · <span id="mktNote">Listings open once the contracts are live.</span></p>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>FAQ</h2>
+    <details><summary>What is Pterodaktil?</summary><p>A collection of 1,600 pixel-art pterodactyl NFTs in 16 tiers on BNB Chain. Each tier has exactly 100. Mints draw a random tier from the deck — any mint can land any tier.</p></details>
+    <details><summary>How much does it cost to mint?</summary><p>Your first mint is FREE if you hold a SPACE ID Agent ID. Then the ladder: 2nd mint 0.0005, 3rd 0.001, 4th 0.002, 5th 0.003, 6th 0.005 BNB. Max 6 per wallet, so the most one wallet ever pays is 0.0115 BNB.</p></details>
+    <details><summary>Do I need an Agent ID to mint?</summary><p>Yes — both the free mint and paid mints require a SPACE ID Agent ID in the minting wallet. There is no allowlist: any Agent ID holder can mint. Use the Agent ID checker above to test a wallet.</p></details>
+    <details><summary>What is $PTRO?</summary><p>The bonus token of the flock. Every mint accrues $PTRO by tier (free mint: 10; paid: 1,000–128,000). Burning 5 NFTs for a Paragon accrues 384,000. Claim it any time from the token contract. Total supply is fixed at 100,000,000.</p></details>
+    <details><summary>How does the Paragon burn work?</summary><p>Burn any 5 Pterodaktils you own and you forge 1 Paragon (the highest tier) plus 384,000 $PTRO. Only 10 Paragons can ever be forged by burn; the other 90 are in the random mint deck.</p></details>
+    <details><summary>Is this the same as the old Pterodaktil?</summary><p>No — this is a new edition with new pixel art, new ladder pricing, the $PTRO bonus token and the Paragon burn. The 2026 Pterodaktil contract (1,600 supply, 0 minted) is untouched and stays where it is.</p></details>
+  </div>
+</section>
+
+<section id="details">
+  <div class="wrap">
+    <h2>Details &amp; contracts</h2>
+    <div class="code-box">
+      <div><span>Network: </span>BNB Chain (BSC mainnet, chain ID 56)</div>
+      <div><span>NFT: </span><a id="nftAddr" href="#" target="_blank" rel="noopener">predicted — deploying soon</a></div>
+      <div><span>$PTRO token: </span><a id="tokAddr" href="#" target="_blank" rel="noopener">predicted — deploying soon</a></div>
+      <div><span>Marketplace: </span><a id="mktAddr2" href="#" target="_blank" rel="noopener">predicted — deploying soon</a></div>
+      <div><span>Royalty: </span>5% → project wallet (BAW)</div>
+      <div><span>Metadata: </span><span id="baseUri">https://pterodaktil-pixel.vercel.app/metadata/</span></div>
+      <div><span>Max / wallet: </span>6 (1 free + 5 paid) · <span>Per-tx paid cap: </span>5</div>
+      <div><span>Gate: </span>SPACE ID Agent ID — no allowlist</div>
+    </div>
+    <p class="note">Addresses above are CREATE2 predictions from the audited deploy simulation — they become final the moment the contracts deploy. Nothing here is a promise of financial return.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="flinks">
+      <a class="btn ghost small" href="https://x.com/ptrdktlnft" target="_blank" rel="noopener">Follow @ptrdktlnft</a>
+      <a class="btn ghost small" id="shareX" href="#" target="_blank" rel="noopener">Post to X</a>
+    </div>
+    <p>Pterodaktil — 1,600 pixel pterodactyls · 16 tiers · BNB Chain</p>
+    <p style="margin-top:6px">Mint opens soon (UTC). First mint FREE for Agent ID holders.</p>
+  </div>
+</footer>
+<a class="btn float-mint" href="#mint" id="floatMint">Mint</a>
+
+<script>
+// ── Pterodaktil (NEW) — mint page logic ──────────────────────────────────
+// Addresses below are CREATE2 PREDICTIONS (deploy simulation). They are
+// final only once the contracts deploy; until then the page stays in
+// PREVIEW state (mint/burn/claim disabled, counters show "—").
+const NFT = "0x35dfeF79f25660F63471Fae76833b1E7D8Dd9750";
+const TOKEN = "0x2Fe05180f94A4377a7C67f8e7828EdC62D3cbB88";
+const MARKET = "0x66581031426181DDc058Acf44e263e804f136806";
+const AGENT_ID = "0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F";
+const BAW = "0x36F3D56eAD5D1D6C2434F94DeFcEF732C5C3CbD2";
+const BASE_URI = "https://pterodaktil-pixel.vercel.app/metadata/";
+const SITE_URL = "https://pterodaktil-pixel.vercel.app/";
+const MAX_SUPPLY = 1600;
+const RPCS = ["https://bsc-dataseed1.bnbchain.org/", "https://bsc-dataseed1.defibit.io/"];
+const BSC_CHAIN_ID = "0x38";
+
+const SEL = {
+  mintOpen: "0x24bbd049", totalMinted: "0xa2309ff8", deckRemaining: "0xc434f97d",
+  burnParagonMinted: "0x0b676de5", mintFree: "0x8ab53447", mintPaid: "0x26c7f77c",
+  quotePaidFor: "0xfba2a03e", burnForParagon: "0x1bc0199e", claimable: "0x402914f5",
+  claim: "0x4e71d92d", balanceOf: "0x70a08231", accrued: "0xb148440f"
+};
+const MINT_ERRORS = {
+  "0x0d9ab13f": "No Agent ID in this wallet — minting needs a SPACE ID Agent ID.",
+  "0x589ed34b": "Mint is closed right now.",
+  "0x52df9fe5": "Sold out.",
+  "0xb92612ed": "Over the wallet limit (max 6 per wallet).",
+  "0xa5cc3e35": "Not enough BNB sent for this mint.",
+  "0x775c0fe5": "Free mint already claimed for this wallet.",
+  "0x30cd7471": "You do not own one of those token IDs.",
+  "0x54a9b94f": "Invalid token set — check the 5 IDs (no duplicates, 1–1600)."
+};
+
+const TIERS = [
+  { name: "Common",    img: "assets/01-common.png",    bonus: "1,000",   color: "#9aa5b1" },
+  { name: "Uncommon",  img: "assets/02-uncommon.png",  bonus: "1,000",   color: "#4ade80" },
+  { name: "Rare",      img: "assets/03-rare.png",      bonus: "2,000",   color: "#6ec1ff" },
+  { name: "Epic",      img: "assets/04-epic.png",      bonus: "2,000",   color: "#a78bfa" },
+  { name: "Legendary", img: "assets/05-legendary.png", bonus: "4,000",   color: "#ffd23f" },
+  { name: "Mythic",    img: "assets/06-mythic.png",    bonus: "4,000",   color: "#ff9a3c" },
+  { name: "Divine",    img: "assets/07-divine.png",    bonus: "8,000",   color: "#fde68a" },
+  { name: "Celestial", img: "assets/08-celestial.png", bonus: "8,000",   color: "#7dd3fc" },
+  { name: "Limited",   img: "assets/09-limited.png",   bonus: "16,000",  color: "#ff5e8a" },
+  { name: "Seasonal",  img: "assets/10-seasonal.png",  bonus: "16,000",  color: "#86efac" },
+  { name: "Event",     img: "assets/11-event.png",     bonus: "32,000",  color: "#fca5a5" },
+  { name: "Exclusive", img: "assets/12-exclusive.png", bonus: "32,000",  color: "#c4b5fd" },
+  { name: "Genesis",   img: "assets/13-genesis.png",   bonus: "64,000",  color: "#fcd34d" },
+  { name: "Apex",      img: "assets/14-apex.png",      bonus: "64,000",  color: "#fdba74" },
+  { name: "Ethereal",  img: "assets/15-ethereal.png",  bonus: "128,000", color: "#e879f9" },
+  { name: "Paragon",   img: "assets/16-paragon.png",   bonus: "128,000", color: "#ffd23f" },
+];
+const LADDER = [null, "0", "0.0005", "0.001", "0.002", "0.003", "0.005"]; // index = mint number
+const LADDER_PAID = ["0.0005", "0.001", "0.002", "0.003", "0.005"]; // paid #1-5
+
+const $ = (id) => document.getElementById(id);
+let mode = "free"; // "free" | "paid"
+let qty = 1;
+let deployed = false; // true once the NFT contract has code on-chain
+let mintIsOpen = false;
+let walletAddr = null;
+
+// ── gallery + rarity table ──
+function renderGallery() {
+  $("gallery").innerHTML = TIERS.map((t, i) => {
+    const start = i * 100 + 1, end = (i + 1) * 100;
+    return `<div class="card"><img src="${t.img}" alt="Pterodaktil ${t.name}" loading="lazy">
+      <div class="cb"><b>${t.name}</b><p>#${start}–${end} · 100 pterodactyls</p>
+      <span class="tier-tag" style="background:${t.color}22;color:${t.color};border:1px solid ${t.color}">${t.bonus} $PTRO / paid mint</span></div></div>`;
+  }).join("");
+}
+function renderRarity() {
+  $("stackbar").innerHTML = TIERS.map((t) => `<i style="width:6.25%;background:${t.color}" title="${t.name}"></i>`).join("");
+  $("rarityBody").innerHTML = TIERS.map((t, i) => {
+    const start = i * 100 + 1, end = (i + 1) * 100;
+    return `<tr><td><b>${t.name}</b></td><td>${start}–${end}</td><td class="num">100</td><td class="num">${t.bonus}</td><td class="num">6.25%</td></tr>`;
+  }).join("");
+}
+
+// ── RPC helpers (no wallet needed) ──
+async function rpcCall(method, params) {
+  for (const url of RPCS) {
+    try {
+      const r = await fetch(url, { method: "POST", headers: { "content-type": "application/json" },
+        body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }) });
+      const j = await r.json();
+      if (j.result !== undefined && j.result !== null) return j.result;
+    } catch (e) { /* try next RPC */ }
+  }
+  return null;
+}
+const padAddr = (a) => "0x" + "0".repeat(24) + a.slice(2).toLowerCase();
+const padUint = (n) => "0x" + BigInt(n).toString(16).padStart(64, "0");
+async function ethCall(to, data) {
+  const r = await rpcCall("eth_call", [{ to, data }, "latest"]);
+  return r; // hex string or null
+}
+async function readUint(to, data) {
+  const r = await ethCall(to, data);
+  if (!r || r === "0x") return null;
+  try { return BigInt(r); } catch (e) { return null; }
+}
+function fmtBNB(wei) {
+  const b = BigInt(wei);
+  const whole = b / 1000000000000000000n;
+  const frac = (b % 1000000000000000000n).toString().padStart(18, "0").slice(0, 4).replace(/0+$/, "");
+  return frac ? whole + "." + frac : String(whole);
+}
+function fmtPTRO(wei) {
+  return Number(BigInt(wei) / 1000000000000000000n).toLocaleString("en-US");
+}
+function shortAddr(a) { return a ? a.slice(0, 6) + "…" + a.slice(-4) : ""; }
+
+// ── live chain state ──
+async function refreshChain() {
+  // Is the NFT contract deployed yet? (eth_getCode)
+  const code = await rpcCall("eth_getCode", [NFT, "latest"]);
+  deployed = !!(code && code !== "0x" && code !== "0x0");
+  if (!deployed) { setPreviewState(); return; }
+  const open = await readUint(NFT, SEL.mintOpen);
+  const minted = await readUint(NFT, SEL.totalMinted);
+  const deck = await readUint(NFT, SEL.deckRemaining);
+  const burned = await readUint(NFT, SEL.burnParagonMinted);
+  if (open === null || minted === null) { setPreviewState(); return; }
+  mintIsOpen = open === 1n;
+  const m = Number(minted);
+  $("mintedCount").textContent = m.toLocaleString() + " / 1,600";
+  $("mintedCount2").textContent = m.toLocaleString() + " / 1,600";
+  $("deckLeft").textContent = deck === null ? "—" : Number(deck).toLocaleString();
+  $("burnCount").textContent = (burned === null ? "—" : Number(burned)) + " / 10";
+  $("mintMeter").style.width = Math.min(100, (m / MAX_SUPPLY) * 100) + "%";
+  $("flightBird").style.left = (4 + Math.min(88, (m / MAX_SUPPLY) * 88)) + "%";
+  const badge = $("mintState"), pill = $("heroPill"), btn = $("mintBtn");
+  if (m >= MAX_SUPPLY) {
+    badge.className = "badge sold"; badge.textContent = "SOLD OUT";
+    pill.className = "pill"; pill.textContent = "🦕 SOLD OUT — 1,600 / 1,600";
+    btn.disabled = true; btn.textContent = "Sold out";
+  } else if (mintIsOpen) {
+    badge.className = "badge live"; badge.textContent = "MINT LIVE";
+    pill.className = "pill live"; pill.textContent = "🦕 MINT LIVE — Find your pterodactyl";
+    $("mintNote").textContent = "Mint is live. First mint FREE for Agent ID holders, then the ladder up to 0.005 BNB.";
+    btn.disabled = false; btn.textContent = mode === "free" ? "Mint FREE" : "Mint " + qty + " (paid)";
+    $("burnBtn").disabled = false; $("claimBtn").disabled = false;
+    $("previewBar").style.display = "none";
+  } else {
+    badge.className = "badge soon"; badge.textContent = "MINT OPENS SOON";
+    pill.className = "pill"; pill.textContent = "🦕 MINT OPENS SOON";
+    btn.disabled = true; btn.textContent = "Mint — opens soon";
+  }
+  setContractLinks();
+  if (walletAddr) refreshClaimable();
+}
+function setPreviewState() {
+  deployed = false; mintIsOpen = false;
+  $("mintedCount").textContent = "— / 1,600";
+  $("mintedCount2").textContent = "— / 1,600";
+  $("deckLeft").textContent = "—";
+  $("burnCount").textContent = "— / 10";
+  $("mintMeter").style.width = "0%";
+  $("mintState").className = "badge soon";
+  $("mintState").textContent = "PREVIEW — MINT NOT DEPLOYED YET";
+  $("mintBtn").disabled = true; $("mintBtn").textContent = "Mint — coming soon";
+  $("burnBtn").disabled = true; $("claimBtn").disabled = true;
+  $("previewBar").style.display = "";
+  setContractLinks();
+}
+function setContractLinks() {
+  const bs = "https://bscscan.com/address/";
+  const set = (id, addr) => { const el = $(id); el.href = bs + addr; el.textContent = shortAddr(addr) + " ↗"; };
+  set("nftAddr", NFT); set("tokAddr", TOKEN); set("mktAddr", MARKET); set("mktAddr2", MARKET);
+}
+
+// ── wallet ──
+function provider() { return window.ethereum || null; }
+async function ensureChain() {
+  const p = provider();
+  if (!p) return false;
+  try {
+    const id = await p.request({ method: "eth_chainId" });
+    if (id === BSC_CHAIN_ID) return true;
+    await p.request({ method: "wallet_switchEthereumChain", params: [{ chainId: BSC_CHAIN_ID }] });
+    return true;
+  } catch (e) {
+    try {
+      await p.request({ method: "wallet_addEthereumChain", params: [{ chainId: BSC_CHAIN_ID, chainName: "BNB Smart Chain", nativeCurrency: { name: "BNB", symbol: "BNB", decimals: 18 }, rpcUrls: ["https://bsc-dataseed.bnbchain.org/"], blockExplorerUrls: ["https://bscscan.com"] }] });
+      return true;
+    } catch (e2) { return false; }
+  }
+}
+async function connect() {
+  const p = provider();
+  if (!p) { setStatus("No wallet found. Open this page in a wallet browser (e.g. your Binance Agentic Wallet) to mint.", true); return null; }
+  try {
+    const accs = await p.request({ method: "eth_requestAccounts" });
+    walletAddr = accs[0];
+    updateWalletLine();
+    if (walletAddr) refreshClaimable();
+    return walletAddr;
+  } catch (e) { setStatus("Wallet connection was rejected.", true); return null; }
+}
+function updateWalletLine() {
+  $("walletLine").textContent = walletAddr ? "Wallet: " + walletAddr + "  ·  " + (deployed ? "contracts live" : "preview") : "Wallet: not connected";
+}
+function bindProviderEvents() {
+  const p = provider();
+  if (!p || !p.on) return;
+  p.on("accountsChanged", (accs) => { walletAddr = accs[0] || null; updateWalletLine(); if (walletAddr) refreshClaimable(); updatePrice(); });
+  p.on("chainChanged", () => refreshChain());
+}
+async function waitReceipt(p, hash) {
+  for (let i = 0; i < 90; i++) {
+    const r = await rpcCall("eth_getTransactionReceipt", [hash]);
+    if (r && r.status) return r;
+    await new Promise((res) => setTimeout(res, 2000));
+  }
+  return null;
+}
+function errText(e) {
+  const msg = (e && e.message) || "";
+  for (const [sel, text] of Object.entries(MINT_ERRORS)) if (msg.includes(sel)) return text;
+  const m = msg.match(/0x[0-9a-fA-F]{8}/);
+  if (m && MINT_ERRORS[m[0]]) return MINT_ERRORS[m[0]];
+  return "Transaction failed. " + msg.slice(0, 120);
+}
+async function sendTx(to, data, valueWei) {
+  const p = provider();
+  const params = [{ from: walletAddr, to, data, value: "0x" + BigInt(valueWei).toString(16) }];
+  const hash = await p.request({ method: "eth_sendTransaction", params });
+  return waitReceipt(p, hash);
+}
+function setStatus(msg, isErr) {
+  const el = $("mintStatus");
+  el.textContent = msg;
+  el.className = "mint-status" + (isErr ? " err" : " ok");
+}
+
+// ── pricing ──
+function jsQuotePaid(q) {
+  // Sum of ladder steps for the next q paid mints is wallet-dependent;
+  // without a wallet we quote from paid #1. With a wallet we use the
+  // on-chain quote below. This fallback keeps the display honest pre-connect.
+  let total = 0n;
+  for (let i = 0; i < q; i++) total += BigInt(Math.round(parseFloat(LADDER_PAID[i]) * 1e18));
+  return total;
+}
+async function onChainQuote(q) {
+  if (!walletAddr || !deployed) return null;
+  const data = SEL.quotePaidFor + padAddr(walletAddr).slice(2) + padUint(q).slice(2);
+  return readUint(NFT, data);
+}
+async function updatePrice() {
+  if (mode === "free") {
+    $("priceLabel").textContent = "Free mint — 10 $PTRO bonus";
+    $("totalPrice").textContent = "0 BNB";
+    $("paidControls").style.display = "none";
+    if (deployed && mintIsOpen) { $("mintBtn").disabled = false; $("mintBtn").textContent = "Mint FREE"; }
+  } else {
+    $("priceLabel").textContent = qty + " paid mint" + (qty > 1 ? "s" : "") + " — ladder";
+    $("paidControls").style.display = "";
+    $("qtyNum").textContent = qty;
+    let cost = await onChainQuote(qty);
+    if (cost === null) cost = jsQuotePaid(qty);
+    $("totalPrice").textContent = fmtBNB(cost) + " BNB";
+    if (deployed && mintIsOpen) { $("mintBtn").disabled = false; $("mintBtn").textContent = "Mint " + qty + " (" + fmtBNB(cost) + " BNB)"; }
+  }
+  renderAgentPrompt();
+}
+function setMode(m) {
+  mode = m;
+  $("btnFree").classList.toggle("on", m === "free");
+  $("btnPaid").classList.toggle("on", m === "paid");
+  updatePrice();
+}
+
+// ── agent prompt ──
+function agentPrompt() {
+  const n = mode === "free" ? "mintFree() for 1 FREE Pterodaktil" : "mintPaid(" + qty + ") for " + qty + " Pterodaktil(s)";
+  const price = mode === "free" ? "0 BNB (free, +10 $PTRO bonus)" : fmtBNB(jsQuotePaid(qty)) + " BNB total (ladder: " + LADDER_PAID.slice(0, qty).join(" + ") + ")";
+  return "Mint Pterodaktil NFT on BNB Chain (chain ID 56).\n" +
+    "Contract: " + NFT + " (Pterodaktil, BEP-721, max supply 1,600).\n" +
+    "Call " + n + ".\n" +
+    "Price: " + price + ".\n" +
+    "Requirements: the minting wallet must hold a SPACE ID Agent ID (registry " + AGENT_ID + "). " +
+    "First mint per wallet is FREE; max 6 mints per wallet (1 free + 5 paid). " +
+    "Mint draws a random tier (16 tiers x 100). Each paid mint accrues $PTRO by tier (1,000–128,000); free mint accrues 10 $PTRO.\n" +
+    "Send the transaction from my Binance Agentic Wallet and report the transaction hash.";
+}
+function renderAgentPrompt() { $("agentPrompt").textContent = agentPrompt(); }
+function copyText(text, btn, doneLabel) {
+  const done = () => { const o = btn.textContent; btn.textContent = doneLabel || "Copied ✓"; setTimeout(() => { btn.textContent = o; }, 2600); };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+  } else fallbackCopy(text, done);
+}
+function fallbackCopy(text, done) {
+  const ta = document.createElement("textarea");
+  ta.value = text; document.body.appendChild(ta); ta.select();
+  try { document.execCommand("copy"); done(); } catch (e) { /* clipboard unavailable */ }
+  document.body.removeChild(ta);
+}
+
+// ── Agent ID checker ──
+async function checkAgent() {
+  const a = $("agentAddr").value.trim();
+  const out = $("agentCheckOut");
+  if (!/^0x[0-9a-fA-F]{40}$/.test(a)) { out.textContent = "Enter a valid 0x wallet address."; out.className = "check-out err"; return; }
+  out.textContent = "Checking…"; out.className = "check-out";
+  const data = SEL.balanceOf + padAddr(a).slice(2);
+  const bal = await readUint(AGENT_ID, data);
+  if (bal === null) { out.textContent = "Could not reach the Agent ID registry — try again."; out.className = "check-out err"; return; }
+  if (bal > 0n) { out.textContent = "✓ This wallet holds an Agent ID — it can mint."; out.className = "check-out ok"; }
+  else { out.textContent = "✗ This wallet has no Agent ID — it cannot mint."; out.className = "check-out err"; }
+}
+
+// ── mint / burn / claim ──
+async function doMint() {
+  if (!deployed || !mintIsOpen) { setStatus("Mint is not open yet — contracts are still deploying.", true); return; }
+  if (!walletAddr) { const a = await connect(); if (!a) return; }
+  if (!(await ensureChain())) { setStatus("Please switch your wallet to BNB Smart Chain (chain ID 56).", true); return; }
+  setStatus("Sending transaction… confirm it in your wallet.");
+  try {
+    let receipt;
+    if (mode === "free") {
+      receipt = await sendTx(NFT, SEL.mintFree, 0n);
+    } else {
+      let cost = await onChainQuote(qty);
+      if (cost === null) cost = jsQuotePaid(qty);
+      const data = SEL.mintPaid + padUint(qty).slice(2);
+      receipt = await sendTx(NFT, data, cost);
+    }
+    if (receipt && receipt.status === "0x1") {
+      setStatus("Minted! ✓ View it: https://bscscan.com/tx/" + receipt.transactionHash);
+      refreshChain();
+    } else {
+      setStatus("Transaction sent but no confirmation yet — check BscScan for its status.", true);
+    }
+  } catch (e) { setStatus(errText(e), true); }
+}
+async function doBurn() {
+  if (!deployed || !mintIsOpen) { $("burnStatus").textContent = "Burn opens once the contracts are live."; $("burnStatus").className = "mint-status err"; return; }
+  if (!walletAddr) { const a = await connect(); if (!a) return; }
+  if (!(await ensureChain())) { $("burnStatus").textContent = "Please switch your wallet to BNB Smart Chain."; $("burnStatus").className = "mint-status err"; return; }
+  const ids = [];
+  for (let i = 0; i < 5; i++) {
+    const v = parseInt($("burnId" + i).value, 10);
+    if (!v || v < 1 || v > 1600) { $("burnStatus").textContent = "Enter 5 token IDs you own (1–1600)."; $("burnStatus").className = "mint-status err"; return; }
+    ids.push(v);
+  }
+  if (new Set(ids).size !== 5) { $("burnStatus").textContent = "The 5 IDs must be different."; $("burnStatus").className = "mint-status err"; return; }
+  $("burnStatus").textContent = "Sending burn transaction… confirm it in your wallet.";
+  $("burnStatus").className = "mint-status";
+  try {
+    let data = SEL.burnForParagon;
+    for (const id of ids) data += padUint(id).slice(2);
+    const receipt = await sendTx(NFT, data, 0n);
+    if (receipt && receipt.status === "0x1") {
+      $("burnStatus").textContent = "Paragon forged! ✓ https://bscscan.com/tx/" + receipt.transactionHash;
+      $("burnStatus").className = "mint-status ok";
+      refreshChain();
+    } else {
+      $("burnStatus").textContent = "Transaction sent but no confirmation yet — check BscScan.";
+      $("burnStatus").className = "mint-status err";
+    }
+  } catch (e) {
+    $("burnStatus").textContent = errText(e);
+    $("burnStatus").className = "mint-status err";
+  }
+}
+async function refreshClaimable() {
+  if (!walletAddr || !deployed) return;
+  const c = await readUint(TOKEN, SEL.claimable + padAddr(walletAddr).slice(2));
+  if (c !== null) $("claimableAmt").textContent = fmtPTRO(c) + " PTRO";
+  const a = await readUint(TOKEN, SEL.accrued + padAddr(walletAddr).slice(2));
+  if (a !== null) $("accruedAmt").textContent = fmtPTRO(a) + " PTRO";
+}
+async function doClaim() {
+  if (!deployed) return;
+  if (!walletAddr) { const a = await connect(); if (!a) return; }
+  if (!(await ensureChain())) { $("claimStatus").textContent = "Please switch your wallet to BNB Smart Chain."; $("claimStatus").className = "mint-status err"; return; }
+  $("claimStatus").textContent = "Sending claim… confirm it in your wallet.";
+  $("claimStatus").className = "mint-status";
+  try {
+    const receipt = await sendTx(TOKEN, SEL.claim, 0n);
+    if (receipt && receipt.status === "0x1") {
+      $("claimStatus").textContent = "Claimed! ✓ https://bscscan.com/tx/" + receipt.transactionHash;
+      $("claimStatus").className = "mint-status ok";
+      refreshClaimable();
+    } else {
+      $("claimStatus").textContent = "Transaction sent but no confirmation yet — check BscScan.";
+      $("claimStatus").className = "mint-status err";
+    }
+  } catch (e) {
+    $("claimStatus").textContent = errText(e);
+    $("claimStatus").className = "mint-status err";
+  }
+}
+
+// ── wire up ──
+$("btnFree").onclick = () => setMode("free");
+$("btnPaid").onclick = () => setMode("paid");
+$("qtyMinus").onclick = () => { if (qty > 1) { qty--; updatePrice(); } };
+$("qtyPlus").onclick = () => { if (qty < 5) { qty++; updatePrice(); } };
+$("mintBtn").onclick = doMint;
+$("burnBtn").onclick = doBurn;
+$("claimBtn").onclick = doClaim;
+$("copyPromptBtn").onclick = () => copyText(agentPrompt(), $("copyPromptBtn"));
+$("agentCheckBtn").onclick = checkAgent;
+$("burgerBtn").onclick = () => $("drawer").classList.toggle("open");
+document.querySelectorAll("#drawer a").forEach((a) => a.onclick = () => $("drawer").classList.remove("open"));
+$("shareX").href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent("Pterodaktil — 1,600 pixel pterodactyls in 16 tiers on BNB Chain. First mint FREE for Agent ID holders. Burn 5 to forge 1 Paragon. @ptrdktlnft") + "&url=" + encodeURIComponent(SITE_URL);
+
+renderGallery();
+renderRarity();
+renderAgentPrompt();
+bindProviderEvents();
+refreshChain();
+setInterval(refreshChain, 30000);
+</script>
+</body>
+</html>
