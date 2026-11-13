@@ -1,0 +1,9 @@
+{
+  "baseURI": "https://pterodaktil-pixel.vercel.app/metadata/",
+  "token": "0x2Fe05180f94A4377a7C67f8e7828EdC62D3cbB88",
+  "nft": "0x35dfeF79f25660F63471Fae76833b1E7D8Dd9750",
+  "market": "0x66581031426181DDc058Acf44e263e804f136806",
+  "tokenGas": "885561",
+  "nftGas": "2801326",
+  "marketGas": "1045775"
+}
