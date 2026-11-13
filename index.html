@@ -217,7 +217,7 @@ footer .flinks{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margi
     <p class="lead">Three steps. No allowlist — any Agent ID holder can mint.</p>
     <div class="steps">
       <div class="step"><b class="num">01</b><h3>Get an Agent ID</h3><p>Hold a SPACE ID Agent ID in the wallet you mint with. The page checks it for you below — no Agent ID, no mint.</p></div>
-      <div class="step"><b class="num">02</b><h3>Mint your pterodactyl</h3><p>First mint is FREE. Then climb the ladder: 0.0005 → 0.001 → 0.002 → 0.003 → 0.005 BNB. Max 6 per wallet. Every mint draws a random tier.</p></div>
+      <div class="step"><b class="num">02</b><h3>Mint via your agent</h3><p>There is no wallet mint button — your agent mints for you. Copy the prompt below, give it to your agent, and it calls the mint. First mint is FREE. Then climb the ladder: 0.0005 → 0.001 → 0.002 → 0.003 → 0.005 BNB. Max 6 per wallet. Every mint draws a random tier.</p></div>
       <div class="step"><b class="num">03</b><h3>Burn 5, forge a Paragon</h3><p>Burn any 5 Pterodaktils to forge 1 Paragon — the highest tier — plus 384,000 $PTRO. Only 10 Paragons can ever be forged by burn.</p></div>
     </div>
   </div>
@@ -264,7 +264,7 @@ footer .flinks{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margi
       <h2 style="margin-top:12px">Mint</h2>
       <p class="lead" id="mintNote">Contracts are deploying soon. The mint panel below is fully wired — it activates the moment the contracts are live.</p>
       <div class="live-row"><span>Minted: <b id="mintedCount2">— / 1,600</b></span><span>Deck left: <b id="deckLeft">—</b></span></div>
-      <div class="wallet-line" id="walletLine">Wallet: not connected</div>
+      <div class="wallet-line" id="walletLine">🤖 Agent-only mint — there is no wallet mint on this page. Copy the prompt below and give it to your agent.</div>
       <div class="mode-row">
         <button class="mode-btn on" id="btnFree">FREE · Agent ID</button>
         <button class="mode-btn" id="btnPaid">PAID · Agent ID</button>
@@ -277,7 +277,7 @@ footer .flinks{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margi
       </div>
       <div class="price-line"><span id="priceLabel">Free mint — 10 $PTRO bonus</span><b id="totalPrice">0 BNB</b></div>
       <div class="price-line"><span>Ladder</span><b>#1 FREE · #2 0.0005 · #3 0.001 · #4 0.002 · #5 0.003 · #6 0.005 BNB</b></div>
-      <button class="btn" id="mintBtn" disabled>Mint — coming soon</button>
+      <button class="btn" id="mintBtn" disabled>🤖 Agent-only mint — use the prompt below</button>
       <div class="mint-status" id="mintStatus"></div>
       <div class="agent-box">
         <b>Agent prompt</b>
@@ -343,7 +343,7 @@ footer .flinks{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margi
     <h2>FAQ</h2>
     <details><summary>What is Pterodaktil?</summary><p>A collection of 1,600 pixel-art pterodactyl NFTs in 16 tiers on BNB Chain. Each tier has exactly 100. Mints draw a random tier from the deck — any mint can land any tier.</p></details>
     <details><summary>How much does it cost to mint?</summary><p>Your first mint is FREE if you hold a SPACE ID Agent ID. Then the ladder: 2nd mint 0.0005, 3rd 0.001, 4th 0.002, 5th 0.003, 6th 0.005 BNB. Max 6 per wallet, so the most one wallet ever pays is 0.0115 BNB.</p></details>
-    <details><summary>Do I need an Agent ID to mint?</summary><p>Yes — both the free mint and paid mints require a SPACE ID Agent ID in the minting wallet. There is no allowlist: any Agent ID holder can mint. Use the Agent ID checker above to test a wallet.</p></details>
+    <details><summary>Do I need an Agent ID to mint?</summary><p>Yes — both the free mint and paid mints require a SPACE ID Agent ID in the minting wallet. There is no allowlist: any Agent ID holder can mint. Use the Agent ID checker above to test a wallet. Minting is agent-only: there is no wallet mint button on this page — copy the agent prompt and give it to your agent.</p></details>
     <details><summary>What is $PTRO?</summary><p>The bonus token of the flock. Every mint accrues $PTRO by tier (free mint: 10; paid: 1,000–128,000). Burning 5 NFTs for a Paragon accrues 384,000. Claim it any time from the token contract. Total supply is fixed at 100,000,000.</p></details>
     <details><summary>How does the Paragon burn work?</summary><p>Burn any 5 Pterodaktils you own and you forge 1 Paragon (the highest tier) plus 384,000 $PTRO. Only 10 Paragons can ever be forged by burn; the other 90 are in the random mint deck.</p></details>
     <details><summary>Is this the same as the old Pterodaktil?</summary><p>No — this is a new edition with new pixel art, new ladder pricing, the $PTRO bonus token and the Paragon burn. The 2026 Pterodaktil contract (1,600 supply, 0 minted) is untouched and stays where it is.</p></details>
@@ -518,8 +518,8 @@ async function refreshChain() {
   } else if (mintIsOpen) {
     badge.className = "badge live"; badge.textContent = "MINT LIVE";
     pill.className = "pill live"; pill.textContent = "🦕 MINT LIVE — Find your pterodactyl";
-    $("mintNote").textContent = "Mint is live. First mint FREE for Agent ID holders, then the ladder up to 0.005 BNB.";
-    btn.disabled = false; btn.textContent = mode === "free" ? "Mint FREE" : "Mint " + qty + " (paid)";
+    $("mintNote").textContent = "Mint is live — agent-only. First mint FREE for Agent ID holders, then the ladder up to 0.005 BNB. Copy the prompt below and give it to your agent.";
+    btn.disabled = true; btn.textContent = "🤖 Agent-only mint — use the prompt below";
     $("burnBtn").disabled = false; $("claimBtn").disabled = false;
     $("previewBar").style.display = "none";
   } else {
@@ -569,7 +569,7 @@ async function ensureChain() {
 }
 async function connect() {
   const p = provider();
-  if (!p) { setStatus("No wallet found. Open this page in a wallet browser (e.g. your Binance Agentic Wallet) to mint.", true); return null; }
+  if (!p) { setStatus("No wallet found. Open this page in a wallet browser to burn or claim.", true); return null; }
   try {
     const accs = await p.request({ method: "eth_requestAccounts" });
     walletAddr = accs[0];
@@ -579,7 +579,7 @@ async function connect() {
   } catch (e) { setStatus("Wallet connection was rejected.", true); return null; }
 }
 function updateWalletLine() {
-  $("walletLine").textContent = walletAddr ? "Wallet: " + walletAddr + "  ·  " + (deployed ? "contracts live" : "preview") : "Wallet: not connected";
+  // Agent-only mint: the wallet line is a static notice, never a connect prompt.
 }
 function bindProviderEvents() {
   const p = provider();
@@ -692,30 +692,10 @@ async function checkAgent() {
   else { out.textContent = "✗ This wallet has no Agent ID — it cannot mint."; out.className = "check-out err"; }
 }
 
-// ── mint / burn / claim ──
-async function doMint() {
-  if (!deployed || !mintIsOpen) { setStatus("Mint is not open yet — contracts are still deploying.", true); return; }
-  if (!walletAddr) { const a = await connect(); if (!a) return; }
-  if (!(await ensureChain())) { setStatus("Please switch your wallet to BNB Smart Chain (chain ID 56).", true); return; }
-  setStatus("Sending transaction… confirm it in your wallet.");
-  try {
-    let receipt;
-    if (mode === "free") {
-      receipt = await sendTx(NFT, SEL.mintFree, 0n);
-    } else {
-      let cost = await onChainQuote(qty);
-      if (cost === null) cost = jsQuotePaid(qty);
-      const data = SEL.mintPaid + padUint(qty).slice(2);
-      receipt = await sendTx(NFT, data, cost);
-    }
-    if (receipt && receipt.status === "0x1") {
-      setStatus("Minted! ✓ View it: https://bscscan.com/tx/" + receipt.transactionHash);
-      refreshChain();
-    } else {
-      setStatus("Transaction sent but no confirmation yet — check BscScan for its status.", true);
-    }
-  } catch (e) { setStatus(errText(e), true); }
-}
+// ── burn / claim ──
+// NOTE (2026-11-13, user order): mint is agent-only — there is no wallet
+// mint on this page. The old doMint() wallet flow was removed; minting
+// happens only via the agent prompt box above (mintFree / mintPaid).
 async function doBurn() {
   if (!deployed || !mintIsOpen) { $("burnStatus").textContent = "Burn opens once the contracts are live."; $("burnStatus").className = "mint-status err"; return; }
   if (!walletAddr) { const a = await connect(); if (!a) return; }
@@ -780,7 +760,6 @@ $("btnFree").onclick = () => setMode("free");
 $("btnPaid").onclick = () => setMode("paid");
 $("qtyMinus").onclick = () => { if (qty > 1) { qty--; updatePrice(); } };
 $("qtyPlus").onclick = () => { if (qty < 5) { qty++; updatePrice(); } };
-$("mintBtn").onclick = doMint;
 $("burnBtn").onclick = doBurn;
 $("claimBtn").onclick = doClaim;
 $("copyPromptBtn").onclick = () => copyText(agentPrompt(), $("copyPromptBtn"));
